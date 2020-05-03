@@ -43,6 +43,17 @@ resource "aws_subnet" "public" {
   }
 }
 
+resource "aws_subnet" "public2" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.public_subnets2
+  map_public_ip_on_launch = "true" //it makes this a public subnet
+  availability_zone       = var.public_az2
+  tags = {
+    env = "test"
+  }
+}
+
+
 resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.vpc.id
   cidr_block              = var.private_subnets
@@ -52,6 +63,17 @@ resource "aws_subnet" "private" {
     env = "test"
   }
 }
+
+resource "aws_subnet" "private2" {
+  vpc_id                  = aws_vpc.vpc.id
+  cidr_block              = var.private_subnets2
+  map_public_ip_on_launch = "false" //it makes this a public subnet
+  availability_zone       = var.private_az2
+  tags = {
+    env = "test"
+  }
+}
+
 
 ############# IG ####################
 
@@ -77,6 +99,12 @@ resource "aws_security_group" "ssh_allowed" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
+    cidr_blocks = ["71.59.236.132/32"] // This means, all ip address are allowed to ssh ! 
+  }
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
     cidr_blocks = ["71.59.236.132/32"] // This means, all ip address are allowed to ssh ! 
   }
   ingress {
@@ -124,10 +152,22 @@ resource "aws_route_table_association" "public_rt_ass" {
   route_table_id = aws_route_table.public.id
 }
 
+resource "aws_route_table_association" "public_rt_ass2" {
+  subnet_id      = aws_subnet.public2.id
+  route_table_id = aws_route_table.public.id
+}
+
+
 resource "aws_route_table_association" "private_rt_ass" {
   subnet_id      = aws_subnet.private.id
   route_table_id = aws_route_table.private.id
 }
+
+resource "aws_route_table_association" "private_rt_ass2" {
+  subnet_id      = aws_subnet.private2.id
+  route_table_id = aws_route_table.private.id
+}
+
 
 ###################### Key pair #######################
 
