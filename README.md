@@ -2,8 +2,4 @@
 
 Jenkins Infra on ECS
 
-[![Build Status](https://http://34.235.135.93:8080/buildStatus/icon?]
-
-link:http://34.235.135.93:8080/job/test/[image:http://34.235.135.93:8080/job/test/badge/icon[Build]]
-
-link:https://ci.jenkins.io/job/Plugins/job/git-plugin/job/master/[image:https://ci.jenkins.io/job/Plugins/job/git-plugin/job/master/badge/icon[Build]]
+[![Build Status](http://ec2-34-235-135-93.compute-1.amazonaws.com:8080/job/test/badge/icon)](http://ec2-34-235-135-93.compute-1.amazonaws.com:8080/job/test/)
