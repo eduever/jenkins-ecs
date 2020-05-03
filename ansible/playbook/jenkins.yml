@@ -1,0 +1,35 @@
+---
+- hosts: aws_ec2
+  gather_facts: false
+  become: yes
+  tasks:
+    - name: Install key for the Jenkins apt repository
+      apt_key:
+        url: "https://pkg.jenkins.io/debian/jenkins-ci.org.key"
+        state: present
+
+    - name: Install access to the Jenkins apt repository
+      apt_repository:
+        repo: deb http://pkg.jenkins.io/debian-stable binary/
+        state: present
+        filename: "jenkins-stable"
+
+    - name: APT Update for the Jenkins repository
+      command: apt update
+
+    - name: Install Jenkins package
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Wait for Jenkins to start up
+      wait_for: timeout=35
+
+    - name: Get Jenkins password
+      shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      changed_when: false
+      register: result
+
+    - name: Password to "Unlock Jenkins"
+      debug:
+        var: result.stdout

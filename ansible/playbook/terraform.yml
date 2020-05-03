@@ -1,0 +1,16 @@
+- hosts: aws_ec2
+  gather_facts: false
+  become: yes
+  tasks:
+    - name: "Install dependencies"
+      apt:
+        pkg:
+          - wget
+          - unzip
+        state: present
+
+    - name: terraform install
+      unarchive:
+        src: https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
+        dest: /usr/bin
+        remote_src: True

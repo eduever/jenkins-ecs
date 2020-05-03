@@ -1,0 +1,6 @@
+**.terraform*
+**.plan*
+**terraform.tfstate*
+**.idea/
+**.DS_Store*
+**.secrets*

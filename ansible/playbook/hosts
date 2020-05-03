@@ -1,0 +1,11 @@
+## set up ssh user name and path to python3 ##
+
+[all:vars]
+ansible_user='ubuntu'
+ansible_become=yes
+ansible_become_method=sudo
+
+ansible_python_interpreter='/usr/bin/python3'
+
+[aws_ec2]
+34.235.135.93
