@@ -5,17 +5,17 @@ variable "ecs_task_execution_role_name" {
 
 variable "app_image" {
   description = "Docker image to run in the ECS cluster"
-  default     = "nginx:latest"
+  default     = "175546642044.dkr.ecr.us-east-1.amazonaws.com/myapp-ecr-repo:v1"
 }
 
 variable "app_port" {
   description = "Port exposed by the docker image to redirect traffic to"
-  default     = 80
+  default     = 8080
 }
 
 variable "app_count" {
   description = "Number of docker containers to run"
-  default     = 3
+  default     = 2
 }
 
 variable "health_check_path" {

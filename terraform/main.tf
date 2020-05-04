@@ -247,16 +247,24 @@ resource "aws_iam_role_policy" "iam_role_policy" {
         {
             "Sid": "VisualEditor0",
             "Effect": "Allow",
-            "Action":"ecs:*",
-            "Resource": "*"
+            "Action": "ecr:*",
+            "Resource": "arn:aws:ecr:*:175546642044:repository/myapp-ecr-repo"
         },
         {
             "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "ecs:*",
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor2",
             "Effect": "Allow",
             "Action": "s3:*",
             "Resource": "arn:aws:s3:::terraform-infra-automation04"
         }
     ]
-}
-EOF
+}EOF
 }

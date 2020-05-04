@@ -1,0 +1,23 @@
+{
+  "containerDefinitions": [
+    {
+      "name": "myapp",
+      "image": "175546642044.dkr.ecr.us-east-1.amazonaws.com/myapp-ecr-repo:latest",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/myapp",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080
+        }
+      ]
+    }
+  ],
+  "family": "myapp-task"
+}

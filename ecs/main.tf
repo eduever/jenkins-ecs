@@ -49,19 +49,6 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-########## ECR ######################
-resource "aws_ecr_repository" "ecr" {
-  name = "myapp-ecr-repo"
-  tags = {
-    name = "ecr-image"
-  }
-}
-
-
-output "repo-url" {
-  value = aws_ecr_repository.ecr.repository_url
-}
-
 ############## ALB for ECS ######################
 
 resource "aws_alb" "main" {
@@ -75,19 +62,6 @@ output "alb_hostname" {
 }
 
 ############################ ALB CONFIGURATION ##########
-
-# Redirect all traffic from the ALB to the target group
-resource "aws_alb_listener" "front_end" {
-  load_balancer_arn = aws_alb.main.id
-  port              = var.app_port
-  protocol          = "HTTP"
-
-  default_action {
-    target_group_arn = aws_alb_target_group.app.id
-    type             = "forward"
-  }
-}
-
 # ALB target group
 resource "aws_alb_target_group" "app" {
   name        = "myapp-target-group"
@@ -106,6 +80,19 @@ resource "aws_alb_target_group" "app" {
     unhealthy_threshold = "2"
   }
 }
+
+# Redirect all traffic from the ALB to the target group
+resource "aws_alb_listener" "front_end" {
+  load_balancer_arn = aws_alb.main.id
+  port              = var.app_port
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_alb_target_group.app.id
+    type             = "forward"
+  }
+}
+
 
 ########### ECS CLUSTER ###############
 
@@ -132,6 +119,10 @@ resource "aws_ecs_task_definition" "app" {
   cpu                      = var.fargate_cpu
   memory                   = var.fargate_memory
   container_definitions    = data.template_file.myapp.rendered
+}
+
+output "task-definition" {
+  value = data.template_file.myapp.rendered
 }
 
 resource "aws_ecs_service" "main" {
