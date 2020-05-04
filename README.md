@@ -2,4 +2,4 @@
 
 Jenkins Infra on ECS
 
-[![Build Status](http://cloudndata.tk:8080/buildStatus/icon?job=test)](http://cloudndata.tk:8080/job/test/)
+[![Build Status](http://http://54.224.103.240/:8080/buildStatus/icon?job=test)](http://http://54.224.103.240/:8080/job/test/)
