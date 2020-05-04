@@ -29,8 +29,10 @@ pipeline {
                             BuildBadge.setStatus('failing')
                             error 'Build failed'
                         }
+                    }
                 }
             }
+          
         }
         stage ('update ECS task') {
             steps {
