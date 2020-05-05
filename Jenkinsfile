@@ -1,7 +1,7 @@
 def BuildBadge = addEmbeddableBadgeConfiguration(id: "build", subject: "nuild")
 
 pipeline {
-    agent { docker { image 'zenika/terraform-aws-cli' } }
+    agent { dockerfile true }
     stages {
         stage ('checkout code') {
             steps {
